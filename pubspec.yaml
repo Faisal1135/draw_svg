@@ -1,7 +1,7 @@
 name: draw_svg
-description: A new Flutter package project.
+description: This rendering library exposes a way to to render SVG paths in a drawing animation like fashion.
 version: 0.0.1
-homepage: null
+homepage: https://github.com/Faisal1135/draw_svg
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -11,11 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
   path_parsing: ^1.0.0
-  xml: ^6.0.1
+  xml: ^5.3.1
 
-dependency_overrides:
-  xml: ^6.0.1
-  collection: ^1.16.0
+# dependency_overrides:
+#   xml: ^6.0.1
+#   collection: ^1.16.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0

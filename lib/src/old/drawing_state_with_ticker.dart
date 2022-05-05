@@ -30,7 +30,7 @@ class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
   bool finished = true;
 
   @override
-  void didUpdateWidget(AnimatedDrawing oldWidget) {
+  void didUpdateWidget(DrawAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (controller != null) {
       controller!.duration = widget.duration;
@@ -81,7 +81,7 @@ class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
         paused = true;
       }
     } on TickerCanceled {
-      // TODO usecase?
+      // the animation got canceled, probably because we were disposed
     }
   }
 }

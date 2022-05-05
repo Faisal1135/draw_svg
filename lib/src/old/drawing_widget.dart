@@ -9,11 +9,16 @@ import 'range.dart';
 
 /// Callback when path is painted.
 typedef PaintedPathCallback = void Function(int, Path);
+const defaultDuration = Duration(seconds: 2);
+void voidFn() {
+  debugPrint("Animation Finished Finished");
+}
 
 /// A widget that iteratively draws path segment data to a defined canvas (drawing line animation).
 ///
-/// Path data can be either passed directly ([AnimatedDrawing.paths]) or via an Svg file ([AnimatedDrawing.svg]).
-class AnimatedDrawing extends StatefulWidget {
+/// Path data can be either passed directly ([DrawAnimation.paths]) or via an Svg file ([AnimatedDrawing.svg]).
+// ignore: must_be_immutable
+class DrawAnimation extends StatefulWidget {
   /// Parses path data from an SVG asset. In order to use assets in your project specify those in `pubspec.yaml`:
   /// ```yaml
   /// assets:
@@ -30,14 +35,15 @@ class AnimatedDrawing extends StatefulWidget {
   ///   }),
   /// )
   /// ```
-  AnimatedDrawing.svg(
+  DrawAnimation.svg(
     this.assetPath, {
+    Key? key,
     //Standard
     this.controller,
     //Simplified version
-    required this.run,
-    required this.duration,
-    required this.onFinish,
+    this.run = true,
+    this.duration = defaultDuration,
+    this.onFinish = voidFn,
     this.onPaint,
     //For both
     // this.animationOrder,
@@ -50,12 +56,13 @@ class AnimatedDrawing extends StatefulWidget {
   })  : paths = [],
         animationCurve = Curves.easeInOut,
         animationOrder = PathOrders.original,
-        paints = [] {
+        paints = [],
+        super(key: key) {
     assertAnimationParameters();
     assert(assetPath.isNotEmpty);
   }
 
-  /// Creates an instance of [AnimatedDrawing] by directly passing path elements to the constructor (still experimental).
+  /// Creates an instance of [DrawAnimation] by directly passing path elements to the constructor (still experimental).
   ///
   ///   ```dart
   ///   AnimatedDrawing.paths(
@@ -78,15 +85,16 @@ class AnimatedDrawing extends StatefulWidget {
   /// Optionally, [paints] can be provided which specifies a [Paint] object for each [Path] element in [paths].
   ///
 
-  AnimatedDrawing.paths(
+  DrawAnimation.paths(
     this.paths, {
+    Key? key,
     //AnimatedDrawing.paths
     this.paints = const <Paint>[],
     //Standard
     this.controller,
     //Simplified version
-    required this.run,
-    required this.duration,
+    this.run = true,
+    this.duration = defaultDuration,
     this.onFinish,
     this.onPaint,
     //For both
@@ -99,7 +107,8 @@ class AnimatedDrawing extends StatefulWidget {
     this.debug,
   })  : assetPath = '',
         animationCurve = Curves.easeInOut,
-        animationOrder = PathOrders.original {
+        animationOrder = PathOrders.original,
+        super(key: key) {
     assertAnimationParameters();
     assert(paths.isNotEmpty);
     if (paints.isNotEmpty) assert(paints.length == paths.length);
@@ -187,7 +196,6 @@ class AnimatedDrawing extends StatefulWidget {
     return AnimatedDrawingWithTickerState();
   }
 
-  // TODO Refactor SRP
   void assertAnimationParameters() {
     assert(!(controller == null && (duration == null)));
   }

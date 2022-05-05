@@ -13,10 +13,7 @@ import 'range.dart';
 void voidCall() {}
 
 /// Base class for _AnimatedDrawingState and _AnimatedDrawingWithTickerState
-abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
-  // AbstractAnimatedDrawingState() {
-  //   onFinishAnimation = onFinishAnimationDefault;
-  // }
+abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   AbstractAnimatedDrawingState()
       : debug = DebugOptions(),
         assetPath = "",
@@ -34,14 +31,11 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
   int lastPaintedPathIndex = -1;
 
   List<PathSegment> pathSegments = <PathSegment>[];
-  List<PathSegment> pathSegmentsToAnimate =
-      <PathSegment>[]; //defined by [range.start] and [range.end]
-  List<PathSegment> pathSegmentsToPaintAsBackground =
-      <PathSegment>[]; //defined by < [range.start]
+  List<PathSegment> pathSegmentsToAnimate = <PathSegment>[];
+  List<PathSegment> pathSegmentsToPaintAsBackground = <PathSegment>[];
 
   VoidCallback onFinishAnimation;
 
-  /// Ensure that callback fires off only once even widget is rebuild.
   bool onFinishEvoked = false;
 
   void onFinishAnimationDefault() {
@@ -61,8 +55,8 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
   }
 
   void evokeOnPaintForNewlyPaintedPaths(int currentPaintedPathIndex) {
-    final int paintedPaths = pathSegments[currentPaintedPathIndex].pathIndex -
-        lastPaintedPathIndex; //TODO you should iterate over the indices of the sorted path segments not the original ones
+    final int paintedPaths =
+        pathSegments[currentPaintedPathIndex].pathIndex - lastPaintedPathIndex;
     for (int i = lastPaintedPathIndex + 1;
         i <= lastPaintedPathIndex + paintedPaths;
         i++) {
@@ -89,7 +83,7 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
   }
 
   @override
-  void didUpdateWidget(AnimatedDrawing oldWidget) {
+  void didUpdateWidget(DrawAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (animationOrder != widget.animationOrder) {
       applyPathOrder();
@@ -118,7 +112,6 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
     animationCurve = widget.animationCurve;
   }
 
-  //TODO Refactor
   Animation<double> getAnimation() {
     Animation<double> animation;
     if (!widget.run) {
@@ -190,7 +183,6 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
         pathSegments: []);
   }
 
-  //TODO refactor to be range not null
   void assignPathSegmentsToPainters() {
     if (pathSegments.isEmpty) return;
 
@@ -226,7 +218,6 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
         "The provided range is invalid for the provided number of paths.");
   }
 
-  // TODO Refactor
   Size getCustomDimensions() {
     if (widget.height != null || widget.width != null) {
       return Size(
@@ -239,14 +230,13 @@ abstract class AbstractAnimatedDrawingState extends State<AnimatedDrawing> {
   }
 
   CustomPaint createCustomPaint(BuildContext context) {
-    updatePathData(); //TODO Refactor - SRP broken (see method name)
+    updatePathData();
     return CustomPaint(
         foregroundPainter: buildForegroundPainter(),
         painter: buildBackgroundPainter(),
         size: Size.copy(MediaQuery.of(context).size));
   }
 
-  // TODO Refactor
   void addListenersToAnimationController() {
     if (debug.recordFrames && controller != null) {
       controller!.view.addListener(() {

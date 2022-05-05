@@ -15,7 +15,9 @@ abstract class AnimationRange {
   bool operator ==(Object o) =>
       o is AnimationRange && start == o.start && end == o.end;
 
-
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }
 
 /// Denotes a range by its relative position in the Path array provided.

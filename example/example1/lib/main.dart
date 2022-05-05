@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'AnimatedDrawing',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -30,18 +30,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final bool _run = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomePage'),
       ),
-      body: AnimatedDrawing.svg("assets/sample.svg",
-          lineAnimation: LineAnimation.oneByOne,
-          run: _run,
-          duration: const Duration(seconds: 4),
-          onFinish: () {}),
+      body: DrawAnimation.svg('assets/sample.svg'),
     );
   }
 }

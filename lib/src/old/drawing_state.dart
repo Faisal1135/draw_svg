@@ -25,7 +25,7 @@ class AnimatedDrawingState extends AbstractAnimatedDrawingState {
   }
 
   @override
-  void didUpdateWidget(AnimatedDrawing oldWidget) {
+  void didUpdateWidget(DrawAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     controller = widget.controller!;
   }

@@ -11,29 +11,56 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+
+This rendering library exposes a way to to render SVG paths in a drawing like fashion.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+
+| <img src="https://github.com/biocarl/img/raw/master/drawing_animation/met_dynamic_1.gif" width="400px" > |*more coming soon*<br/>... | <img src="https://github.com/biocarl/img/raw/master/drawing_animation/loader_1.gif" width="400px"> 
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+
+To get started with the `draw_svg` package you need a valid Svg file.
+1. **Add dependency in your `pubspec.yaml`**
+```yaml
+dependencies:
+  draw_svg: ^0.0.1
+
+```
+
+2. **Add the SVG asset**
+```yaml
+assets:
+  - assets/my_drawing.svg
+```
+
+
+
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
 
 ```dart
-const like = 'sample';
+
+    Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('HomePage'),
+      ),
+      body: DrawAnimation.svg('assets/sample.svg'),
+    );
+  }
 ```
+
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+
+## Credits
+This package is highly inspired by the drawing animation package which is no longer maintaine . Try to rewrite this package in more modern way.
+
+
+# Author 
+Faisal Kabir Galib
