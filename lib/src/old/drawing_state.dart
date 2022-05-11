@@ -4,7 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'abstract_drawing_state.dart';
 import 'drawing_widget.dart';
 
-/// A state implementation which allows controlling the animation through an animation controller when provided.
 class AnimatedDrawingState extends AbstractAnimatedDrawingState {
   AnimatedDrawingState() : super() {
     onFinishAnimation = () {

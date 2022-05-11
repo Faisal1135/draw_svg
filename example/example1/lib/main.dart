@@ -36,7 +36,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('HomePage'),
       ),
-      body: DrawAnimation.svg('assets/sample.svg'),
+      body: DrawAnimation.svg(
+        'assets/sample.svg',
+        height: 400,
+        width: 400 * 0.8,
+      ),
     );
   }
 }

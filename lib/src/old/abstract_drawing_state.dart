@@ -12,7 +12,6 @@ import 'range.dart';
 
 void voidCall() {}
 
-/// Base class for _AnimatedDrawingState and _AnimatedDrawingWithTickerState
 abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   AbstractAnimatedDrawingState()
       : debug = DebugOptions(),
@@ -66,7 +65,6 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   }
 
   void evokeOnPaintForPath(int i) {
-    //Only evoked in next frame
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       setState(() {
         if (widget.onPaint != null) {
@@ -99,7 +97,6 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   }
 
   void applyDebugOptions() {
-    //If DebugOptions changes a hot restart is needed.
     if (widget.debug != null) {
       debug = widget.debug!;
       debug;
@@ -107,8 +104,6 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   }
 
   void applyAnimationCurve() {
-    // curve = CurvedAnimation(parent: controller, curve: widget.animationCurve);
-
     animationCurve = widget.animationCurve;
   }
 
@@ -159,17 +154,6 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
         .copyWith(pathSegments: pathSegmentsToPaintAsBackground)
         .build();
   }
-
-  // PathPainterBuilder preparePathPainterBuilder([LineAnimation? lineAnimation]) {
-  //   PathPainterBuilder builder = PathPainterBuilder(lineAnimation);
-  //   builder.setAnimation(getAnimation());
-  //   builder.setCustomDimensions(getCustomDimensions());
-  //   builder.setPaints(widget.paints);
-  //   builder.setOnFinishFrame(onFinishFrame);
-  //   builder.setScaleToViewport(widget.scaleToViewport);
-  //   builder.setDebugOptions(debug);
-  //   return builder;
-  // }
 
   PathPainterBuilder preparePaintBudler([LineAnimation? lineAnimation]) {
     return PathPainterBuilder(
@@ -275,8 +259,7 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   }
 
   void parseFromPaths(SvgParser parser) {
-    parser.loadFromPaths(widget
-        .paths); //Path object are parsed completely upon every state change
+    parser.loadFromPaths(widget.paths);
     setState(() {
       pathSegments = parser.getPathSegments();
     });
@@ -289,10 +272,9 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   void parseFromSvgAsset(SvgParser parser) {
     parser.loadFromFile(widget.assetPath).then((_) {
       setState(() {
-        //raw paths
         widget.paths.clear();
         widget.paths.addAll(parser.getPaths());
-        //corresponding segments
+
         pathSegments = parser.getPathSegments();
         assetPath = widget.assetPath;
       });
@@ -300,7 +282,6 @@ abstract class AbstractAnimatedDrawingState extends State<DrawAnimation> {
   }
 
   bool checkIfDefaultOrderSortingRequired() {
-    // always keep paths for allAtOnce animation in original path order so we do not sort for the correct PaintOrder later on (which is pretty expensive for AllAtOncePainter)
     final bool defaultSortingWhenNoOrderDefined =
         widget.lineAnimation == LineAnimation.allAtOnce &&
             animationOrder != PathOrders.original;

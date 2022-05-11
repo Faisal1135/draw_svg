@@ -4,7 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'abstract_drawing_state.dart';
 import 'drawing_widget.dart';
 
-/// A state implementation with an implemented animation controller to simplify the animation process
 class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
     with SingleTickerProviderStateMixin {
   AnimatedDrawingWithTickerState() : super() {
@@ -15,7 +14,7 @@ class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
         SchedulerBinding.instance?.addPostFrameCallback((_) {
           onFinishAnimationDefault();
         });
-        //Animation is completed when last frame is painted not when animation controller is finished
+
         if (controller != null &&
                 controller!.status == AnimationStatus.dismissed ||
             controller!.status == AnimationStatus.completed) {
@@ -25,7 +24,6 @@ class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
     };
   }
 
-  //Manage state
   bool paused = false;
   bool finished = true;
 
@@ -61,7 +59,6 @@ class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
     return createCustomPaint(context);
   }
 
-//
   Future<void> buildAnimation() async {
     try {
       if ((paused ||
@@ -80,8 +77,6 @@ class AnimatedDrawingWithTickerState extends AbstractAnimatedDrawingState
         controller!.stop();
         paused = true;
       }
-    } on TickerCanceled {
-      // the animation got canceled, probably because we were disposed
-    }
+    } on TickerCanceled {}
   }
 }

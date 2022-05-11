@@ -2,24 +2,15 @@ import 'package:flutter/painting.dart';
 
 import 'parser.dart';
 
-/// Denotes the order of [PathSegment] elements (not public).
-///
-/// A [PathSegment] represents a continuous Path element which itself can be contained in a [Path].
-///
-/// Ordering the [PathSegment] elements based on the properties of the respective parent Path is still work in progress and will be possible soon.
 class PathOrder {
-  /// The [PathSegment] order is defined according to their respective length, starting with the longest element. If [reverse] is true, the smallest element is selected first.
   PathOrder.byLength({reverse = false})
       : _comparator = _byLength(reverse: reverse);
 
-  /// The [PathSegment] order is defined according to its position in the overall bounding box. The position is defined as the center of the respective bounding box of each [PathSegment] element. The field [direction] specifies in which direction the position attribute is compared.
   PathOrder.byPosition({required AxisDirection direction})
       : _comparator = _byPosition(direction: direction);
 
-  /// Internal
   PathOrder._(this._comparator);
 
-  /// Restores the original order of PathSegments
   PathOrder._original() : _comparator = __original();
 
   final Comparator<PathSegment> _comparator;
@@ -86,7 +77,6 @@ class PathOrder {
     };
   }
 
-  /// Returns a new PathOrder object which first sorts [PathSegment] elements according to this instance and further sorts according to [secondPathOrder].
   PathOrder combine(PathOrder secondPathOrder) {
     return PathOrder._((PathSegment a, PathSegment b) {
       int comp = _comparator(a, b);
@@ -94,52 +84,25 @@ class PathOrder {
       return comp;
     });
   }
-
-// PathOrder reverse(){
-// }
-
-  /// Based on outer bounds (depending on the direction) of bounding box.
-// static Comparator<PathSegment> _byPosition2({@required AxisDirection direction}){
-//   switch(direction){
-//     case AxisDirection.left:
-//       return (PathSegment a, PathSegment b) { return b.path.getBounds().right.compareTo(a.path.getBounds().right);};
-//     case AxisDirection.right:
-//       return (PathSegment a, PathSegment b) { return a.path.getBounds().left.compareTo(b.path.getBounds().left);};
-//     case AxisDirection.up :
-//       return (PathSegment a, PathSegment b) { return b.path.getBounds().bottom.compareTo(a.path.getBounds().bottom);};
-//   case AxisDirection.down :
-//     return (PathSegment a, PathSegment b) { return a.path.getBounds().top.compareTo(b.path.getBounds().top);};
-//   default:
-//     return (PathSegment a, PathSegment b) { return 1;};
-// }
-// }
 }
 
-/// A collection of common [PathOrder] constants.
 class PathOrders {
-  /// The [PathSegment] elements are painted in the order as they are laid out in the Svg asset or path list. This is useful as a default PathOrder for cases where a PathOrder is required but no different order is desired.
   static PathOrder original = PathOrder._original();
 
-  /// [PathSegment] elements which are located left-most of the overall bounding box are considered first.
   static PathOrder leftToRight =
       PathOrder.byPosition(direction: AxisDirection.right);
 
-  /// [PathSegment] elements which are located right-most of the overall bounding box are considered first.
   static PathOrder rightToLeft =
       PathOrder.byPosition(direction: AxisDirection.left);
 
-  /// [PathSegment] elements which are located at the very top of the overall bounding box are considered first.
   static PathOrder topToBottom =
       PathOrder.byPosition(direction: AxisDirection.down);
 
-  /// [PathSegment] elements which are located at the very bottom of the overall bounding box are considered first.
   static PathOrder bottomToTop =
       PathOrder.byPosition(direction: AxisDirection.up);
 
-  /// [PathSegment] elements which are smallest in size are considered first.
   static PathOrder increasingLength = PathOrder.byLength(reverse: true);
 
-  /// [PathSegment] elements which are biggest in size are considered first.
   static PathOrder decreasingLength = PathOrder.byLength();
 }
 
