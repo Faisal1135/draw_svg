@@ -1,6 +1,6 @@
 name: draw_svg
 description: This rendering library exposes a way to to render SVG paths in a drawing animation like fashion.
-version: 0.0.1
+version: 0.0.3
 homepage: https://github.com/Faisal1135/draw_svg
 
 environment:
